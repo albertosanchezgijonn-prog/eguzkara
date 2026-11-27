@@ -20,6 +20,11 @@ jobs:
         run: |
           grep -q RECORD_AUDIO android/app/src/main/AndroidManifest.xml || \
           sed -i 's#</manifest>#    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n</manifest>#' android/app/src/main/AndroidManifest.xml
+      - name: Iconos de Guzki
+        run: |
+          cp -r android-res/* android/app/src/main/res/
+          rm -f android/app/src/main/res/mipmap-*/ic_launcher_foreground.webp android/app/src/main/res/mipmap-*/ic_launcher.webp android/app/src/main/res/mipmap-*/ic_launcher_round.webp
+          ls android/app/src/main/res/mipmap-xxxhdpi
       - run: npx cap sync android
       - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
