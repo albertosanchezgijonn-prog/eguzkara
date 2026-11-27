@@ -1,0 +1,16 @@
+{
+  "appId": "eus.eguzkara.app",
+  "appName": "eGuzkara",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "iconColor": "#58cc02"
+    }
+  }
+}
