@@ -1,6 +1,6 @@
-# eGuzkara · euskera A1–B2 con Guzki
+# eGuzkara · euskera A1–C1 con Guzki
 
-40 unidades (15 de A1 + 13 de A2 + 6 de B1 + 6 de B2), cada una con: nota de gramática, vocabulario, frases, diálogos (audio + lectura), pronunciación y test final.
+75 unidades (15 por nivel: A1, A2, B1, B2 y C1), cada una con: nota de gramática, vocabulario, frases, diálogos (audio + lectura), pronunciación y test final.
 Además: práctica libre generada al azar (conjugaciones, casos, números, horas, formas verbales), repaso de errores, simulacro de examen y guía de gramática.
 
 ## Cómo tenerla en el móvil Android
@@ -37,9 +37,11 @@ La versión APK usa los plugins `@capacitor-community/text-to-speech` y `@capaci
 * **Avisos (solo APK):** notificaciones diarias a la hora elegida; el tono escala (¿Seguimos? → ¡Ea, ea! → Esto ya es personal… → Me estoy marchitando…). Ajustes → Guzki.
 * Dibujado en SVG por capas (`guzki.js`); `node tools/guzki-sheet.js` genera una hoja con todas sus caras.
 
-## Ampliación B1 y B2
-* Se incorporan 12 unidades intermedias con gramática explicada, vocabulario, frases, diálogos con preguntas, ejercicios y tareas de escritura: pasado narrativo; conectores temporales; relativas; estilo indirecto; argumentación; obligación y consejo; hipótesis; concesión; relativas complejas; inferencia; registro formal y síntesis.
-* El material B1/B2 es original y de práctica; **no es un temario oficial ni ha sido revisado por un docente nativo**. Las formas avanzadas pueden variar según contexto y variedad; conviene contrastarlas antes de usarlas como modelo evaluativo.
+## Niveles y alcance
+* **A1, A2, B1, B2 y C1: 15 unidades cada uno.** Cada unidad trae nota de gramática, vocabulario, frases, diálogo con preguntas, ejercicios, tarea de escritura y pronunciación; la gramática añade huecos automáticos generados a partir de las frases.
+* **Horas:** esto es una app de práctica, no un curso presencial. Cada nivel equivale a unas 10-15 horas de práctica en la app, muy lejos de las horas lectivas de un euskaltegi (HABE prevé del orden de 125-200 horas lectivas por nivel inicial, más trabajo personal). No sustituye al profesor.
+* **Calidad:** el contenido B1, B2 y C1 es original y **no ha sido revisado por un hablante o docente nativo**. Las formas avanzadas (condicionales, modalizadores como omen/bide, locuciones) pueden contener errores o variar según el dialecto. Contrástalo antes de usarlo como modelo evaluativo.
+* Los simulacros B1, B2 y C1 son orientativos; el formato y la puntuación oficiales los fija HABE.
 
 ## Repaso de verbos
 * «Conjugaciones: repaso completo» genera una pregunta por forma de todas las tablas y por cada una de las seis personas, sin repetir dentro de la ronda.
@@ -55,7 +57,7 @@ La versión APK usa los plugins `@capacitor-community/text-to-speech` y `@capaci
   Es un indicador útil, no una evaluación fonética profesional. Si tu dispositivo no reconoce euskera hay modo de autoevaluación.
 
 ## Límites a tener en cuenta
-* Contenido **original**, inspirado en descriptores de nivel A1–B2 del MCER para euskera. **No es material oficial de HABE** ni garantiza el aprobado:
+* Contenido **original**, inspirado en descriptores de nivel A1–C1 del MCER para euskera. **No es material oficial de HABE** ni garantiza el aprobado:
   practica además con los modelos de examen oficiales y con un profesor/hablante, sobre todo la expresión escrita y oral.
 * El simulacro es orientativo (formato, duración y puntuación oficiales los fija HABE).
 * Revisa el contenido con un docente de euskera antes de usarlo como única fuente.

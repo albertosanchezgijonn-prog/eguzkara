@@ -147,6 +147,9 @@ E.TABLES = [
   { id: 'lakoizan', name: 'izan → -(e)la (que es/son…)', p: P, f: ['naizela', 'zarela', 'dela', 'garela', 'zaretela', 'direla'], from: ['naiz', 'zara', 'da', 'gara', 'zarete', 'dira'] },
   { id: 'lakoukan', name: 'ukan → -(e)la (que tiene…)', p: PN, f: ['dudala', 'duzula', 'duela', 'dugula', 'duzuela', 'dutela'], from: ['dut', 'duzu', 'du', 'dugu', 'duzue', 'dute'] },
   { id: 'lakoegon', name: 'egon → -(e)la (que está…)', p: P, f: ['nagoela', 'zaudela', 'dagoela', 'gaudela', 'zaudetela', 'daudela'], from: ['nago', 'zaude', 'dago', 'gaude', 'zaudete', 'daude'] },
+  { id: 'eraman', name: 'eraman · presente (llevar)', p: PN, f: ['daramat', 'daramazu', 'darama', 'daramagu', 'daramazue', 'daramate'] },
+  { id: 'ekarri', name: 'ekarri · presente (traer)', p: PN, f: ['dakart', 'dakarzu', 'dakar', 'dakargu', 'dakarzue', 'dakarte'] },
+  { id: 'ibili', name: 'ibili · presente (andar)', p: P, f: ['nabil', 'zabiltza', 'dabil', 'gabiltza', 'zabiltzate', 'dabiltza'] },
 ];
 // Ronda exhaustiva: una pregunta por celda, sin reemplazo ni duplicados.
 // Recorre todas las tablas disponibles y las seis personas de cada paradigma.
@@ -269,6 +272,20 @@ E.GEN = {
 
 /* ---------- construcción de ejercicios a partir de datos ---------- */
 const fix = (it) => it;
+/* hueco automático: oculta una palabra de una frase y ofrece 3 distractores de otras frases de la unidad */
+E.mkCloze = (p, allPhrases) => {
+  const clean = (w) => w.replace(/[¿?¡!.,;:«»"()]/g, '');
+  const words = p[0].split(' ');
+  const cand = words.map((w, i) => [clean(w), i]).filter(x => x[0].length >= 4);
+  if (!cand.length) return null;
+  const [ans, idx] = cand[E.rnd(cand.length)];
+  const shown = words.map((w, i) => (i === idx ? w.replace(ans, '___') : w)).join(' ');
+  const seen = new Set([E.norm(ans)]); const pool = [];
+  allPhrases.filter(q => q !== p).forEach(q => q[0].split(' ').forEach(w => { const c = clean(w); const k = E.norm(c); if (c.length >= 3 && !seen.has(k)) { seen.add(k); pool.push(c); } }));
+  if (pool.length < 3) return null;
+  const opts = E.shuffle([ans].concat(E.pick(pool, 3)));
+  return { t: 'fl', q: shown + '  (' + p[1] + ')', a: ans, opts, w: opts, tag: 'cloze' };
+};
 E.mkTr = (p, allPhrases) => {
   const bank = E.tokens(p[0]);
   const others = E.uniq(allPhrases.filter(q => q !== p).flatMap(q => E.tokens(q[0]))).filter(x => !bank.includes(x));
@@ -295,7 +312,7 @@ E.buildPools = (u) => {
   const P = u.p || [], V = u.v || [];
   const gen = (u.gen || []).map(g => (typeof g === 'function' ? g : typeof g === 'string' ? (() => E.GEN[g]()) : E.GEN[g[0]](g[1])));
   const mkG = (n) => { const out = []; if (!gen.length) return out; for (let i = 0; i < n; i++) out.push(gen[i % gen.length]()); return out; };
-  const gram = () => E.shuffle((u.x || []).slice()).concat(mkG(14));
+  const gram = () => E.shuffle((u.x || []).slice()).concat(mkG(14)).concat(gen.length ? [] : E.pick(P.map(p => E.mkCloze(p, P)).filter(Boolean), 6));
   const vocab = () => {
     const out = [E.mkMatch(V), E.mkMatch(V)];
     V.forEach((_, i) => { out.push(E.mkVocab(V, i, 'eu-es')); out.push(E.mkVocab(V, i, 'es-eu')); out.push(E.mkVocab(V, i, 'vl')); });
@@ -372,6 +389,11 @@ E.buildExam = (units) => {
 E.mc = (q, a, w, ex) => ({ t: 'mc', q, a, w, ex });
 E.fl = (q, a, opts, ex) => ({ t: 'fl', q, a, opts: opts || null, w: opts || [], ex });
 E.wr = (prompt, req, model) => ({ prompt, req, model });
+/* ayudantes para escribir contenido de forma compacta */
+E.vocabList = (s) => s.trim().split('\n').map(l => l.split('=').map(t => t.trim()));
+E.phraseList = (s) => s.trim().split('\n').map(l => l.split('|').map(t => t.trim()));
+E.dialog = (title, text, qs) => ({ title, lines: text.trim().split('\n').map(l => { const i = l.indexOf(':'); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; }), qs });
+
 E.UNITS = [];
 E.U = (u) => { E.UNITS.push(u); };
 

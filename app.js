@@ -487,7 +487,7 @@ function guzCard() {
 }
 function viewPath() {
   const wrap = h('div', { class: 'page' }, statsBar(), guzCard());
-  wrap.appendChild(h('div', { class: 'seg' }, ['A1', 'A2', 'B1', 'B2'].map(l => h('button', { class: view.level === l ? 'on' : '', type: 'button', onclick: () => { view.level = l; render(); } }, l))));
+  wrap.appendChild(h('div', { class: 'seg' }, ['A1', 'A2', 'B1', 'B2', 'C1'].map(l => h('button', { class: view.level === l ? 'on' : '', type: 'button', onclick: () => { view.level = l; render(); } }, l))));
   const warn = (!Snd.hasEu()) ? h('div', { class: 'warn' }, '⚠️ No he detectado una voz en euskera en este dispositivo. Se usará una voz de respaldo (pronunciación aproximada). Mira Ajustes → Voz.') : null;
   if (warn) wrap.appendChild(warn);
   E.UNITS.filter(u => u.lv === view.level).forEach((u, ui) => {
@@ -533,10 +533,10 @@ function viewPractice() {
     ['📅', 'Habitual y futuro: todos los verbos', `${E.habFutureDeck().length} formas; cada verbo una vez por tiempo`, () => go(E.habFutureDeck(), 'Habitual · futuro')],
     ['🎯', 'Finalidad -tzera / -tzeko', `${E.finalReviewDeck().length} formas; ambas estructuras sin repetir`, () => go(E.finalReviewDeck(), 'Finalidad · -tzera / -tzeko')],
     ['👤', 'Genitivo, dativo y comitativo de nombres', 'Mikelen, Aneri, Anarekin…', () => go(mk(() => E.genItem(), 12), 'Izenak')],
-    ['🎧', 'Escucha libre A1–B2', 'Diálogos y dictados de todas las unidades', () => {
+    ['🎧', 'Escucha libre A1–C1', 'Diálogos y dictados de todas las unidades', () => {
       const pool = E.UNITS.flatMap(u => E.buildLesson(u, 'listen')); go(E.pick(pool, 12), 'Entzumena'); }],
     ['🎤', 'Pronunciación libre', 'Repite frases de todas las unidades', () => { const pool = E.UNITS.flatMap(u => (u.p || []).map(p => E.mkSay(p))); go(E.pick(pool, 10), 'Mintzamena'); }],
-    ['🔤', 'Vocabulario mixto', 'Todas las palabras de A1 a B2', () => { const all = E.UNITS.flatMap(u => u.v || []); go(mk(() => E.mkVocab(all, E.rnd(all.length), ['eu-es', 'es-eu', 'vl'][E.rnd(3)]), 16), 'Hiztegia'); }],
+    ['🔤', 'Vocabulario mixto', 'Todas las palabras de A1 a C1', () => { const all = E.UNITS.flatMap(u => u.v || []); go(mk(() => E.mkVocab(all, E.rnd(all.length), ['eu-es', 'es-eu', 'vl'][E.rnd(3)]), 16), 'Hiztegia'); }],
   ];
   cards.forEach(c => wrap.appendChild(h('button', { class: 'card', type: 'button', onclick: c[3] }, h('span', { class: 'cic' }, c[0]), h('span', { class: 'ctx' }, h('b', null, c[1]), h('small', null, c[2])))));
   wrap.appendChild(h('h3', null, 'Tabla concreta'));
@@ -548,8 +548,8 @@ function viewPractice() {
 
 function viewExam() {
   const wrap = h('div', { class: 'page' }, statsBar(), h('h2', null, '📝 Simulacro de examen'),
-    h('p', { class: 'hint' }, 'A1–B2: sesión sin pistas ni feedback inmediato, con las cinco destrezas: comprensión oral, lectora, gramática/vocabulario, expresión escrita y oral. El resultado es orientativo: el formato y la puntuación oficiales los fija HABE, así que consulta su guía y modelos de examen.'));
-  ['A1', 'A2', 'B1', 'B2'].forEach(lv => wrap.appendChild(h('button', { class: 'card', type: 'button', onclick: () => startExam(lv) }, h('span', { class: 'cic' }, ({A1:'🌱',A2:'🌿',B1:'🌳',B2:'🏔️'})[lv]), h('span', { class: 'ctx' }, h('b', null, 'Simulacro ' + lv), h('small', null, '≈ 45 ejercicios · 20-30 min')))));
+    h('p', { class: 'hint' }, 'A1–C1: sesión sin pistas ni feedback inmediato, con las cinco destrezas: comprensión oral, lectora, gramática/vocabulario, expresión escrita y oral. El resultado es orientativo: el formato y la puntuación oficiales los fija HABE, así que consulta su guía y modelos de examen.'));
+  ['A1', 'A2', 'B1', 'B2', 'C1'].forEach(lv => wrap.appendChild(h('button', { class: 'card', type: 'button', onclick: () => startExam(lv) }, h('span', { class: 'cic' }, ({A1:'🌱',A2:'🌿',B1:'🌳',B2:'🏔️',C1:'🌄'})[lv]), h('span', { class: 'ctx' }, h('b', null, 'Simulacro ' + lv), h('small', null, '≈ 45 ejercicios · 20-30 min')))));
   if (S.exams.length) {
     wrap.appendChild(h('h3', null, 'Historial'));
     S.exams.slice(-8).reverse().forEach(e => wrap.appendChild(h('div', { class: 'row' }, h('b', null, e.lv + ' · ' + e.date), h('span', { class: e.pct >= 60 ? 'okw' : 'badw' }, e.pct + ' %'))));
@@ -573,8 +573,8 @@ function startExam(lv) {
 }
 
 function viewGuide() {
-  const wrap = h('div', { class: 'page' }, statsBar(), h('h2', null, '📚 Guía de gramática A1-A2'));
-  ['A1', 'A2', 'B1', 'B2'].forEach(lv => {
+  const wrap = h('div', { class: 'page' }, statsBar(), h('h2', null, '📚 Guía de gramática A1–C1'));
+  ['A1', 'A2', 'B1', 'B2', 'C1'].forEach(lv => {
     wrap.appendChild(h('h3', null, 'Nivel ' + lv));
     E.UNITS.filter(u => u.lv === lv).forEach(u => {
       const det = h('details', { class: 'gd' }, h('summary', null, u.ic + ' ' + u.t + ' — ' + u.es), h('article', { class: 'note', html: u.g }));
@@ -635,7 +635,7 @@ function viewSettings() {
   f.addEventListener('change', () => { const r = new FileReader(); r.onload = () => { try { S = Object.assign({}, DEF, JSON.parse(r.result)); fixS(); save(); render(); } catch (e) { alert('Archivo no válido'); } }; if (f.files[0]) r.readAsText(f.files[0]); });
   wrap.appendChild(h('label', { class: 'lbl' }, '⬆️ Importar progreso', f));
   wrap.appendChild(h('button', { class: 'btn danger', onclick: () => { if (confirm('¿Borrar todo el progreso?')) { S = JSON.parse(JSON.stringify(DEF)); save(); render(); } } }, 'Borrar progreso'));
-  wrap.appendChild(h('p', { class: 'hint' }, 'eGuzkara · contenido original (A1–B2) inspirado en descriptores del MCER. No es material oficial de HABE y no garantiza el aprobado: úsalo junto con los modelos de examen oficiales.'));
+  wrap.appendChild(h('p', { class: 'hint' }, 'eGuzkara · contenido original (A1–C1) inspirado en descriptores del MCER. No es material oficial de HABE y no garantiza el aprobado: úsalo junto con los modelos de examen oficiales.'));
   return wrap;
 }
 

@@ -23,7 +23,8 @@ const store={};global.localStorage={getItem:k=>store[k]||null,setItem:(k,v)=>{st
 global.fetch=()=>Promise.reject();global.confirm=()=>true;global.alert=()=>{};global.location={protocol:'file:'};global.navigator={};
 global.scrollTo=()=>{};
 global.setTimeout=(f,ms)=>{return 0}; // sin autoplay/timeouts
-for(const f of ['core.js','guzki.js','content_a1a.js','content_a1b.js','content_a2a.js','content_a2b.js','content_b1.js','content_b2.js','app.js']) (0,eval)(fs.readFileSync(f,'utf8'));
+const CONTENT=fs.readdirSync('.').filter(f=>/^content_.*\.js$/.test(f)).sort();
+for(const f of ['core.js','guzki.js',...CONTENT,'app.js']) (0,eval)(fs.readFileSync(f,'utf8'));
 const api=window.__euskara;
 const find=(n,pred,acc=[])=>{if(pred(n))acc.push(n);n.children.forEach(c=>find(c,pred,acc));return acc};
 const cls=(n,c)=>n.className&&n.className.split(' ').includes(c);

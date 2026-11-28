@@ -2,7 +2,7 @@
   "name": "eguzkara",
   "version": "1.0.0",
   "private": true,
-  "description": "eGuzkara · euskera A1–B2 con Guzki (PWA + Capacitor/Android)",
+  "description": "eGuzkara · euskera A1–C1 con Guzki (PWA + Capacitor/Android)",
   "scripts": {
     "web": "node tools/copy-web.js",
     "test": "node test.js && node smoke.js",
